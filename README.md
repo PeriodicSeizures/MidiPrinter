@@ -1,13 +1,11 @@
 # MidiPrinter
 play music with ender 3 steppers
 
-## Usage
-executable.py my-file.mid track speed
+## Overview
+There are 2 versions of this project, one originally written in python, and one later written in c++.
 
-args: ender3_music.py ./nyan-cat.mid 1 4
+The Python one supports only single notes (played with one stepper), and plays in regards to the midi ticks and a speed argument.
 
-I havn't been able to correctly set the tempo automatically, so youll have to that yourself with the custom speed arg, so something like nyan cat doesnt finish playing in 2 seconds.
+The c++ version supports single notes and chords, but still cannot play notes which otherwise overlap with each other (limitations of the default ender3 firmware). The chord feature is highly experimental (enabled anyways) and needs more tweaking. Sweden sounds like this in the beginning <>.
 
-I was planning multiple stepper support, but too much for now. Linear moves with the gcode interface require pytha and stuff, and having to keep track of notes is awkward, especially considering how move commands are blocking and notes could be played during a move.
-
-Because of this, only simple midis work at the moment. I added a small detection to tell whether notes are being played at parallel (those will be skipped).
+The 2 different versions are on their own respective branches.
