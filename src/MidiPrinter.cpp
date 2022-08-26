@@ -10,10 +10,10 @@
 static void findNoteBatch(smf::MidiEventList& track, int& i,
     std::vector<std::reference_wrapper<smf::MidiEvent>>& notes) {
 
-    // we'll use the first note as the checker
+    // we'll use the first note as the primer (the check-against)
     auto&& primer = track[i++];
 
-    // Break out of non notes
+    // skip non-note
     if (!primer.isNote())
         return;
 
@@ -60,7 +60,10 @@ void MidiPrinter::open(std::string filename) {
 	midifile.linkNotePairs();
 
     int tracks = midifile.getTrackCount();
-    for (int ti = 1; ti < tracks; ti++) {
+    //for (int ti = 5; ti < tracks; ti++) {
+    {
+        const int ti = 5; // bass starting for giornos
+
         auto&& track = midifile[ti];
 
         midi_s_t lastSeconds = 0;
@@ -69,6 +72,7 @@ void MidiPrinter::open(std::string filename) {
         for (int ei = 0; ei < track.size();) {
             std::vector<std::reference_wrapper<smf::MidiEvent>> notes;
             {
+                // scoped for local hiding
                 auto&& e = track[ei];
                 findNoteBatch(track, ei, notes);
             }
@@ -87,6 +91,7 @@ void MidiPrinter::open(std::string filename) {
                 lastSeconds = seconds;
                 lastDuration = duration;
 
+                // single note
                 if (notes.size() == 1) {
                     this->m_sounds.emplace_back(std::make_shared<Note>(
                         primer.getDurationInSeconds(), primer.getKeyNumber()));
@@ -107,11 +112,7 @@ void MidiPrinter::open(std::string filename) {
 std::string MidiPrinter::process() {
     //std::fill_n(m_steppers.begin(), 3, Stepper());
 
-    // TODO tacky
-    m_steppers.clear();
-    m_steppers.push_back(Stepper());
-    m_steppers.push_back(Stepper());
-    m_steppers.push_back(Stepper());
+    m_steppers = { Stepper('X'), Stepper('Y'), Stepper('Z') };
 
     std::string result = "M117 Playing stepper song ; lcd\n" \
         "M107 ; disable part fan\n" \

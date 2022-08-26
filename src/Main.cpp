@@ -42,8 +42,9 @@ int mdain(int argc, char** args) {
 int main(int argc, char** args) {
 
 	MidiPrinter player;
-	player.open("data/imperial-basic.mid");
-    player.open("data/sweden.mid");
+	//player.open("data/imperial-basic.mid");
+    //player.open("data/sweden.mid");
+    player.open("data/giornos.mid");
 	//player.open("data/nyan-cat-basic.mid");
 
 	std::cout << player.process();

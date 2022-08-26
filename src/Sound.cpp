@@ -45,6 +45,8 @@ std::string Note::gc(std::vector<Stepper> &steppers) {
 
 std::string Chord::gc(std::vector<Stepper> &steppers) {
 	std::vector<stepper_mm_min_t> rates;
+
+	// calculate the A --> B distance
 	stepper_mm_t euclidian_dist = 0;
 	for (auto key : m_keys) {
 		auto mm_min = cvt(key);
@@ -54,7 +56,6 @@ std::string Chord::gc(std::vector<Stepper> &steppers) {
 
 		euclidian_dist += (mm * mm);
 	}
-
 	euclidian_dist = std::sqrt(euclidian_dist);
 
 	std::vector<stepper_mm_t> adj_dists;
@@ -63,7 +64,7 @@ std::string Chord::gc(std::vector<Stepper> &steppers) {
 	std::stringstream s;
 	s << "G0";
 
-	// iterate the adjusted
+	// iterate the newly calculated adjusted_dists
 	for (int i = 0; i < adj_dists.size(); i++) {
 		auto adj_dist = adj_dists[i];
 		s << " " << steppers[i].gc_frag_d(rates[i], adj_dist);

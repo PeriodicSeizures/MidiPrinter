@@ -3,14 +3,6 @@
 #include <stdint.h>
 #include <vector>
 
-//enum class Axis : char {
-//	X = 'X',
-//	Y = 'Y',
-//	Z = 'Z',
-//	//E = 'E', // extruder isnt feasable because theres messy filament
-//	INVALID // = CHAR_MAX
-//};
-
 using Axis = char;
 
 using midi_ms_t = uint32_t;		// duration
